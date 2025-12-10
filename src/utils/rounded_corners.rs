@@ -117,7 +117,7 @@ pub fn apply_rounded_corners_to_viewport(ctx: &Context) {
 
         match apply_native_rounded_corners(native_ptr) {
             Ok(_) => {
-                println!("🎉 Native rounded corners applied successfully to viewport!");
+                // println!("🎉 Native rounded corners applied successfully to viewport!");
                 handle_found = true;
             }
             Err(e) => {

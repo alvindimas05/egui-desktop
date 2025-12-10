@@ -41,7 +41,8 @@ mod platform {
 #[cfg(target_os = "macos")]
 mod platform {
     use super::*;
-    use objc2::{ffi::nil, msg_send, runtime::{AnyObject, Bool}};
+    use objc2::{ffi::nil, msg_send, runtime::AnyObject, runtime::Bool};
+    use std::ffi::CString;
 
     pub fn apply_native_rounded_corners(ptr: *mut c_void) -> Result<(), Box<dyn Error>> {
         if ptr.is_null() {
@@ -65,6 +66,17 @@ mod platform {
 
             // Hide title
             let _: () = msg_send![ns_window, setTitleVisibility: 1u64]; // NSWindowTitleHidden = 1
+
+            // Make window background transparent to avoid grey corners
+            let _: () = msg_send![ns_window, setOpaque: Bool::NO];
+            
+            // Get clear color (transparent) using NSColor
+            let class_name = CString::new("NSColor").unwrap();
+            let ns_color_class = objc2::runtime::AnyClass::get(class_name.as_c_str());
+            if let Some(color_class) = ns_color_class {
+                let clear_color: *mut AnyObject = msg_send![color_class, clearColor];
+                let _: () = msg_send![ns_window, setBackgroundColor: clear_color];
+            }
 
             // Rounded contentView layer
             let content_view: *mut AnyObject = msg_send![ns_window, contentView];
