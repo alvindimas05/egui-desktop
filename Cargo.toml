@@ -25,24 +25,26 @@ rustdoc-args = [
 ]
 
 [dependencies]
-egui = "0.32"
-eframe = "0.32"
+egui = "0.33.2"
+eframe = "0.33.2"
 
-egui_extras = { version = "0.32", features = ["all_loaders"] }
+egui_extras = { version = "0.33.2", features = ["all_loaders"] }
 raw-window-handle = "0.6"
 lazy_static = "1.4"
+objc2 = "0.6.3"
+objc2-app-kit = "0.3.2"
+objc2-foundation = "0.3.2"
 
 # Platform-specific dependencies for native rounded corners
 [target.'cfg(target_os = "windows")'.dependencies]
-windows = { version = "0.58", features = [
+windows = { version = "0.62.2", features = [
     "Win32_Foundation",
     "Win32_Graphics_Dwm",
     "Win32_UI_WindowsAndMessaging",
 ] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
-cocoa = "0.26"
-objc = "0.2"
+objc2 = "0.6.3"
 
 [profile.release]
 opt-level = 3
